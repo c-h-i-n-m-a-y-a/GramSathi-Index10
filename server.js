@@ -13,7 +13,7 @@ app.use(express.json({ limit: "20mb" }));
 const username = encodeURIComponent(process.env.MONGODB_USER);
 const password = encodeURIComponent(process.env.MONGODB_PASSWORD);
 
-const uri =
+const uri = process.env.MONGODB_URI ||
     `mongodb://${username}:${password}` +
     `@ac-10c3rxa-shard-00-00.grbk3is.mongodb.net:27017,` +
     `ac-10c3rxa-shard-00-01.grbk3is.mongodb.net:27017,` +
@@ -21,11 +21,9 @@ const uri =
     `?tls=true&authSource=admin&retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
-    family: 4,
-    tls: true,
-    serverSelectionTimeoutMS: 20000,
-    connectTimeoutMS: 20000,
-    socketTimeoutMS: 20000
+    serverSelectionTimeoutMS: 30000,
+    connectTimeoutMS: 30000,
+    socketTimeoutMS: 30000
 });
 
 let db;
