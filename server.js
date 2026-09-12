@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
 const bcrypt = require("bcryptjs");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -33,7 +34,7 @@ let db;
 // =========================
 
 app.get("/", (req, res) => {
-    res.send("GramSathi Index10 Backend is Running!");
+    res.sendFile(path.join(__dirname, "index10.html"));
 });
 
 app.get("/api/test", (req, res) => {
