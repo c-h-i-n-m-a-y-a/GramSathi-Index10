@@ -4335,7 +4335,7 @@ async function updateComplaint() {
 
     try {
         const response = await fetch(
-            `https://gramsathi-index10-8.onrender.com/api/complaints/${id}`,
+            `http://localhost:5000/api/complaints/${id}`,
             {
                 method: "PUT",
                 headers: {
