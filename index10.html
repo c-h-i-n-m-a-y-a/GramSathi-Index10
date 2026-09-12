@@ -3337,7 +3337,7 @@ async function saveComplaint(complaint) {
     // Also send the complaint, including the base64 photo, to MongoDB.
     try {
         const response = await fetch(
-            "https://gramsathi-index10-8.onrender.comapi/complaints",
+            "https://gramsathi-index10-8.onrender.com/api/complaints",
             {
                 method: "POST",
                 headers: {
@@ -4379,7 +4379,7 @@ async function updateComplaint() {
 async function loadComplaintsFromMongoDB() {
     try {
         const response = await fetch(
-            "https://gramsathi-index10-8.onrender.comapi/complaints"
+            "https://gramsathi-index10-8.onrender.com/api/complaints"
         );
 
         const data = await response.json();
