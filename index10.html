@@ -4824,6 +4824,48 @@ async function loginUser(event) {
         error.style.display = "block";
     }
 }
+/* ---------- Safe localStorage save (quota error se crash nahi hoga) ---------- */
+function safeSaveComplaints() {
+    try {
+        localStorage.setItem("gramComplaints", JSON.stringify(complaints));
+    } catch (e) {
+        try {
+            const lite = complaints.map(c => ({ ...c, photo: "" }));
+            localStorage.setItem("gramComplaints", JSON.stringify(lite));
+        } catch (e2) {
+            console.warn("localStorage full, skipping cache:", e2);
+        }
+    }
+}
+
+async function loadComplaintsFromMongoDB() {
+    try {
+        const response = await fetch(
+            "https://gramsathi-index10-8.onrender.com/api/complaints"
+        );
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Failed to load complaints");
+        }
+
+        complaints = data.complaints || [];
+
+        safeSaveComplaints();   // yahan crash hota tha, ab nahi hoga
+
+        if (currentUser) {
+            if (currentUser.role === "admin") {
+                renderAdmin();
+            } else {
+                renderDashboard();
+            }
+        }
+    } catch (error) {
+        console.error("MongoDB complaints load failed:", error);
+    }
+}
+
+loadComplaintsFromMongoDB();
 </script>
 
 </body>
