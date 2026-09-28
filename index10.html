@@ -3321,10 +3321,10 @@ async function saveComplaint(complaint) {
 
     // Save locally first so the complaint is never lost.
     complaints.push(complaint);
-    localStorage.setItem(
-        "gramComplaints",
-        JSON.stringify(complaints)
-    );
+    safeSaveComplaints();
+        
+
+
 
     // Show success in the website immediately.
     document.getElementById("newComplaintId").textContent = complaint.id;
